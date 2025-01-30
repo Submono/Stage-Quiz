@@ -11,7 +11,7 @@
             width: 80vw;
             height: 80vh;
             background-image: url('https://submono.github.io/Stage-Plot-Quiz/Screenshot%202025-01-30%20124340.png');
-            background-size: contain;
+            background-size: contain; background-repeat: no-repeat;
             background-position: center center;
             display: flex;
             align-items: center;
@@ -19,44 +19,44 @@
         }
         .stage {
             position: absolute;
-            width: 80%;
-            height: 85%;
+            width: 100%;
+            height: 100%;
             display: grid;
-            grid-template-columns: 30% 40% 30%;
-            grid-template-rows: 25% 35% 40%;
-            gap: 5px;
+            grid-template-columns: 33.3% 33.3% 33.3%;
+            grid-template-rows: 33.3% 33.3% 33.3%;
+            gap: 0;
+            top: 0;
+            left: 0;
         }
         .stage div {
             background-color: rgba(255, 255, 255, 0);
-            border: 2px solid transparent;
+            border: 1px solid transparent;
             cursor: pointer;
         }
-        .upstage { grid-row: 1; }
-        .midstage { grid-row: 2; }
-        .downstage { grid-row: 3; }
         #question { margin-bottom: 20px; font-size: 1.2em; }
         #feedback { margin-top: 10px; font-weight: bold; }
-        #reset { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
+        #reset, #screenshot { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
     </style>
 </head>
 <body>
     <h1>Stage Direction Quiz</h1>
     <div id="question">Click on: Mid Stage Center</div>
-    <div class="stage-container">
+    <div class="stage-container" id="quiz-container">
         <div class="stage">
-            <div class="upstage" data-direction="upstage-right"></div>
-            <div class="upstage" data-direction="upstage-center"></div>
-            <div class="upstage" data-direction="upstage-left"></div>
-            <div class="midstage" data-direction="center-stage-right"></div>
-            <div class="midstage" data-direction="center-stage"></div>
-            <div class="midstage" data-direction="center-stage-left"></div>
-            <div class="downstage" data-direction="downstage-right"></div>
-            <div class="downstage" data-direction="downstage-center"></div>
-            <div class="downstage" data-direction="downstage-left"></div>
+            <div data-direction="upstage-right"></div>
+            <div data-direction="upstage-center"></div>
+            <div data-direction="upstage-left"></div>
+            <div data-direction="center-stage-right"></div>
+            <div data-direction="center-stage"></div>
+            <div data-direction="center-stage-left"></div>
+            <div data-direction="downstage-right"></div>
+            <div data-direction="downstage-center"></div>
+            <div data-direction="downstage-left"></div>
         </div>
     </div>
     <div id="feedback"></div>
     <button id="reset">Reset</button>
+    <button id="screenshot">Download Screenshot</button>
     <script>
         let questions = [
             { prompt: "Upstage Right", answer: "upstage-right" },
@@ -109,7 +109,17 @@
             updateQuestion();
         });
 
+        document.getElementById('screenshot').addEventListener('click', () => {
+            html2canvas(document.getElementById('quiz-container'), { useCORS: true }).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'stage_quiz_screenshot.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+
         updateQuestion();
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
