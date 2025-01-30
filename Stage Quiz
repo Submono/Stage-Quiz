@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage Direction Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .stage-container {
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+            background-image: url('https://submono.github.io/Stage-Plot-Quiz/Screenshot%202025-01-30%20124340.png');
+            background-size: contain;
+            background-position: center center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stage {
+            position: absolute;
+            width: 80%;
+            height: 85%;
+            display: grid;
+            grid-template-columns: 30% 40% 30%;
+            grid-template-rows: 25% 35% 40%;
+            gap: 5px;
+        }
+        .stage div {
+            background-color: rgba(255, 255, 255, 0);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .upstage { grid-row: 1; }
+        .midstage { grid-row: 2; }
+        .downstage { grid-row: 3; }
+        #question { margin-bottom: 20px; font-size: 1.2em; }
+        #feedback { margin-top: 10px; font-weight: bold; }
+        #reset { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Stage Direction Quiz</h1>
+    <div id="question">Click on: Mid Stage Center</div>
+    <div class="stage-container">
+        <div class="stage">
+            <div class="upstage" data-direction="upstage-right"></div>
+            <div class="upstage" data-direction="upstage-center"></div>
+            <div class="upstage" data-direction="upstage-left"></div>
+            <div class="midstage" data-direction="center-stage-right"></div>
+            <div class="midstage" data-direction="center-stage"></div>
+            <div class="midstage" data-direction="center-stage-left"></div>
+            <div class="downstage" data-direction="downstage-right"></div>
+            <div class="downstage" data-direction="downstage-center"></div>
+            <div class="downstage" data-direction="downstage-left"></div>
+        </div>
+    </div>
+    <div id="feedback"></div>
+    <button id="reset">Reset</button>
+    <script>
+        let questions = [
+            { prompt: "Upstage Right", answer: "upstage-right" },
+            { prompt: "Upstage Center", answer: "upstage-center" },
+            { prompt: "Upstage Left", answer: "upstage-left" },
+            { prompt: "Mid Stage Right", answer: "center-stage-right" },
+            { prompt: "Mid Stage Center", answer: "center-stage" },
+            { prompt: "Mid Stage Left", answer: "center-stage-left" },
+            { prompt: "Downstage Right", answer: "downstage-right" },
+            { prompt: "Downstage Center", answer: "downstage-center" },
+            { prompt: "Downstage Left", answer: "downstage-left" }
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(questions);
+        let currentQuestion = 0;
+
+        function updateQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById('question').textContent = 'Click on: ' + questions[currentQuestion].prompt;
+            } else {
+                document.getElementById('question').textContent = 'Quiz Complete! Well done!';
+            }
+        }
+
+        document.querySelectorAll('.stage div').forEach(section => {
+            section.addEventListener('click', () => {
+                const selected = section.getAttribute('data-direction');
+                const feedback = document.getElementById('feedback');
+                if (selected === questions[currentQuestion].answer) {
+                    feedback.textContent = 'Correct!';
+                    currentQuestion++;
+                    updateQuestion();
+                } else {
+                    feedback.textContent = 'Incorrect. Try again.';
+                }
+            });
+        });
+
+        document.getElementById('reset').addEventListener('click', () => {
+            currentQuestion = 0;
+            shuffleArray(questions);
+            document.getElementById('feedback').textContent = '';
+            updateQuestion();
+        });
+
+        updateQuestion();
+    </script>
+</body>
+</html>
