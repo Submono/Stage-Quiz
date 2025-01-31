@@ -36,18 +36,7 @@
         #question { margin-bottom: 20px; font-size: 1.2em; }
         #feedback { margin-top: 10px; font-weight: bold; }
         #reset, #screenshot { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
-        #quiz-complete {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2em;
-            font-weight: bold;
-            color: white;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            display: none;
-        }
+        #quiz-complete { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2em; font-weight: bold; color: white; background: rgba(0, 0, 0, 0.7); padding: 20px; visibility: hidden; opacity: 0; transition: opacity 0.5s ease-in-out; }
     </style>
 </head>
 <body>
@@ -97,7 +86,7 @@
             if (currentQuestion < questions.length) {
                 document.getElementById('question').textContent = 'Click on: ' + questions[currentQuestion].prompt;
             } else {
-                document.getElementById('quiz-complete').style.display = 'block';
+                document.getElementById('quiz-complete').style.visibility = 'visible'; document.getElementById('quiz-complete').style.opacity = '1';
             }
         }
 
