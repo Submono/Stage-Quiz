@@ -36,6 +36,18 @@
         #question { margin-bottom: 20px; font-size: 1.2em; }
         #feedback { margin-top: 10px; font-weight: bold; }
         #reset, #screenshot { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
+        #quiz-complete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -53,6 +65,7 @@
             <div data-direction="downstage-center"></div>
             <div data-direction="downstage-left"></div>
         </div>
+        <div id="quiz-complete">Quiz Complete! Well done!</div>
     </div>
     <div id="feedback"></div>
     <button id="reset">Reset</button>
@@ -84,7 +97,7 @@
             if (currentQuestion < questions.length) {
                 document.getElementById('question').textContent = 'Click on: ' + questions[currentQuestion].prompt;
             } else {
-                document.getElementById('question').textContent = 'Quiz Complete! Well done!';
+                document.getElementById('quiz-complete').style.display = 'block';
             }
         }
 
@@ -106,6 +119,7 @@
             currentQuestion = 0;
             shuffleArray(questions);
             document.getElementById('feedback').textContent = '';
+            document.getElementById('quiz-complete').style.display = 'none';
             updateQuestion();
         });
 
